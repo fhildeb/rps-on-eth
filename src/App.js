@@ -244,7 +244,7 @@ class App extends React.Component {
                   <span className="RPSFinished Right" ><img id="opresult" className="RPSFinishImage" src="./paper.png" alt="Paper"></img></span>
                   <span className="FinishedSpan Footer">You</span>
                   <span className="FinishedSpan Right Footer">Opponent</span>
-                  <button id="tieOrWin" className="FullSizeForwardButton" onClick={() => this.claimLastReward()}><span> claim your reward</span></button>
+                  <button id="tieOrWin" className="FullSizeForwardButton Hide" onClick={() => this.claimLastReward()}><span> claim your reward</span></button>
                   <button id="playAnotherOne" className="FullSizeForwardButton Hide" onClick={() => this.refreshPage()}><span> play again</span></button>
                 </div>
               </div>
@@ -412,23 +412,6 @@ class App extends React.Component {
 
     this.setState({ message: "Waiting for opponent´s reveal" });
 
-    const { web3 } = this.state;
-    const rps = new web3.eth.Contract(RPSABI, rpsAddress);
-
-    await rps.events.BothGesturesRevealed()
-      .on("data", function(event){
-        userGesture = event.returnValues.userString;
-        opponentGuesture = event.returnValues.opponentString;
-        document.getElementById("forceReward").style.display = "none";
-        document.getElementById("revealInfo").style.display = "none";
-        document.getElementById("checkbar").style.display = "none";
-        document.getElementById("waitpicture").style.display = "none";
-        document.getElementById("checkWinner").style.display = "block";
-        document.getElementById("forceRewardClaim").style.display = "none";
-        document.getElementById("lspicture").className="Picture";
-        document.getElementById("waitpicture").className="Picture";
-        document.getElementById("revealpicture").className="Picture";
-    });
   }
 
   /**
@@ -506,12 +489,19 @@ class App extends React.Component {
         from: web3.currentProvider.selectedAddress});
     }
 
+  /**
+   * Button Press Function:
+   * Someone wants to look at the contracts balance
+   */
   showBalance = async () => {
     const { web3 } = this.state;
       this.setState({ lockedfunds: Number(web3.utils.fromWei(await web3.eth.getBalance(operatorAddress), 'ether')).toFixed(5) });
   }
 
-
+  /**
+   * Button Press Function:
+   * Play RPS with guestures and reveal winner
+   */
   playRPS = async () => {
     document.getElementById("checkbar").style.display = "block";
     this.picturePulse(1)
@@ -520,10 +510,6 @@ class App extends React.Component {
     const { web3 } = this.state;
     const rps = new web3.eth.Contract(RPSABI, rpsAddress);
     
-    await rps.methods.playRPS().send({
-      from: web3.currentProvider.selectedAddress
-    });
-
     await rps.events.WinnerSet()
     .on("data", function(event){
       var winner = event.returnValues.winner;
@@ -547,8 +533,18 @@ class App extends React.Component {
       document.getElementById("myresult").src = "./"+userGesture+".png";
       document.getElementById("opresult").src = "./"+opponentGuesture+".png";
     });
+    
+    await rps.methods.playRPS().send({
+      from: web3.currentProvider.selectedAddress
+    });
+
+
   }
 
+  /**
+   * Button Press Function:
+   * Show the result within the final screen
+   */
   showResult = () => {
     this.setState({ result: gameresult });
     document.getElementById("resultText").style.display = "block";
@@ -559,6 +555,10 @@ class App extends React.Component {
     }
   }
 
+  /**
+   * Button Press Function:
+   * Claim reward after game finished
+   */
   claimReward = async () => {
     const { web3 } = this.state;
     const rps = new web3.eth.Contract(RPSABI, rpsAddress);
@@ -568,6 +568,10 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Button Press Function:
+   * Claim reward if opponent does not answer
+   */
   claimLastReward = async () => {
     document.getElementById("tieOrWin").style.display = "none";
     document.getElementById("playAnotherOne").style.display = "block";
@@ -608,6 +612,7 @@ class App extends React.Component {
       lookuperror.style.display = "block";
       lookupmessage.style.display = "none";
     }
+    // Is address
     if(isAddr){
       var opbetamount;
       document.getElementById("joinaddress").disabled = true;
@@ -616,11 +621,13 @@ class App extends React.Component {
       opponentAddress = input;
       this.setState({ error: "" });
 
+      // Address is not active
       if(opbetamount === "0"){
         this.setState({ message: "This address is currently not playing with a bet." });
         lookuperror.style.display = "none";
         lookupmessage.style.display = "block";
       }
+      // Game about 0.0005 ETH
       else if(opbetamount === web3.utils.toWei("500", "szabo")){
         opbetamount = "0.0005"
         this.setState({ betamount: "500" });
@@ -630,6 +637,7 @@ class App extends React.Component {
         lookuperror.style.display = "none";
         lookupmessage.style.display = "block";
       }
+      // Game about 0.005ETH
       else if(opbetamount === web3.utils.toWei("5000", "szabo")){
         opbetamount = "0.005"
         this.setState({ betamount: "5000" });
@@ -639,6 +647,7 @@ class App extends React.Component {
         lookuperror.style.display = "none";
         lookupmessage.style.display = "block";
       }
+      // Game about 0.05 ETH
       else if(opbetamount === web3.utils.toWei("50000", "szabo")){
         opbetamount = "0.05"
         this.setState({ betamount: "50000" });
@@ -662,6 +671,7 @@ class App extends React.Component {
 
     const { web3 } = this.state;
 
+    // Wait before first state amount, neccessary or it could crash
     await this.setState({ betamount: this.state.betamount });
     var balance = web3.eth.getBalance(this.state.address);
     var bet = web3.utils.toWei(this.state.betamount, "szabo");
@@ -671,20 +681,22 @@ class App extends React.Component {
       var prep = this.state.betamount;
       var fee = prep.substring(0, prep.length - 2);
 
+      // Listen to the Contracts Event when Game is created
       await operator.events.publishRPS()
       .on("data", function(event){
         rpsAddress = event.returnValues.clone;
       });
+
+      // Someone joined your address
       await operator.methods.joinAddress(opponentAddress).send({
       from: web3.currentProvider.selectedAddress,
       value: web3.utils.toWei(fee, "szabo")});
-
-
 
       this.picturePulse(0);
       document.getElementById("loading").style.display = "none";
       this.togglePlayGame();
     }
+    // Not enough funds to play
     else{
       await this.setState({ message: "You dont have enough funds to participate in a rock paper scissor game."});
     }
@@ -700,6 +712,7 @@ class App extends React.Component {
   chooseBet = async (amount) => {
     const { web3 } = this.state;
 
+    // Wait before first state amount, neccessary or it could crash
     await this.setState({ betamount: amount });
     var balance = web3.eth.getBalance(this.state.address);
     var bet = web3.utils.toWei(amount, "szabo");
@@ -719,6 +732,7 @@ class App extends React.Component {
       this.picturePulse(0);
       this.toggleWaitingScreen();
     }
+    // Not enough funds to play
     else{
       await this.setState({ error: "You dont have enough funds to participate in a rock paper scissor game."});
       document.getElementById("betError").style.display = "block";
@@ -736,12 +750,16 @@ class App extends React.Component {
     const { web3 } = this.state;
     const rps = new web3.eth.Contract(RPSABI, rpsAddress);
 
-    await rps.methods.forceReward().send({
-      from: web3.currentProvider.selectedAddress})
-    
+    // hear if you got claimed your reward
     await rps.events.WinnerSet()
       .on("data", function(event){
     });
+
+    // force the reward
+    await rps.methods.forceReward().send({
+      from: web3.currentProvider.selectedAddress})
+    
+
     this.setState({ message: "Claim successful" });
     document.getElementById("forceReward").style.display = "none";
     document.getElementById("checkWinner").style.display = "none";
@@ -757,18 +775,22 @@ class App extends React.Component {
     var input = document.getElementById("password").value;
     var error = document.getElementById("error");
 
+    // password is not a number
     if(isNaN(input)){
       this.setState({ error: "You can only type in a sequence of numbers including characters from 0 to 9" });
       error.style.display = "block";
     }
+    // password is clear
     else if(input.toString().length === 0){
       this.setState({ error: "You need to enter a password before you can submit your choice" });
       error.style.display = "block";
     }
+    // forgot to pick option
     else if(option === ""){
       this.setState({ error: "You forgot to choose either rock, paper or scissor. Which one you choose?" });
       error.style.display = "block";
     }
+    // all set
     else{
       error.style.display = "none";
       this.setState({ message: "Currently submitting your choice" });
@@ -778,6 +800,10 @@ class App extends React.Component {
     }
   }
 
+  /** 
+   * Async function handling the transaction
+   * of the users guesture and password
+  */
   sendRPSInput = async () =>{
       const { web3 } = this.state;
       const rps = new web3.eth.Contract(RPSABI, rpsAddress);
@@ -785,6 +811,20 @@ class App extends React.Component {
       document.getElementById("playing").style.display = "none";
       document.getElementById("loading").style.display = "block";
       
+      // waiting for the opponent
+      await rps.events.BothHashesReceived()
+            .on("data", function(event){
+              document.getElementById("revealing").style.display = "block";
+              document.getElementById("loading").style.display = "none";
+              document.getElementById("revealstatusbar").style.display ="none";
+              document.getElementById("revealerror").style.display = "none";
+              document.getElementById("lspicture").className="Picture";
+              document.getElementById("waitpicture").className="Picture";
+              document.getElementById("revealpicture").className="Picture";
+              
+      });
+
+      // creating the users hash
       await rps.methods.createHash(option, password).send({
         from: web3.currentProvider.selectedAddress,
         value: web3.utils.toWei(this.state.betamount, "szabo")});
@@ -793,16 +833,7 @@ class App extends React.Component {
       document.getElementById("loading").style.display = "block";
       this.setState({ message: "Waiting for opponent´s move" });
         
-      await rps.events.BothHashesReceived()
-        .on("data", function(event){
-          document.getElementById("revealing").style.display = "block";
-          document.getElementById("loading").style.display = "none";
-          document.getElementById("revealstatusbar").style.display ="none";
-          document.getElementById("revealerror").style.display = "none";
-          document.getElementById("lspicture").className="Picture";
-          document.getElementById("waitpicture").className="Picture";
-          document.getElementById("revealpicture").className="Picture";
-      });
+
   }
 
   /**
@@ -821,6 +852,23 @@ class App extends React.Component {
     const { web3 } = this.state;
     const rps = new web3.eth.Contract(RPSABI, rpsAddress);
     
+    // Both players submitted their guestures
+    await rps.events.BothGesturesRevealed()
+    .on("data", function(event){
+      userGesture = event.returnValues.userString;
+      opponentGuesture = event.returnValues.opponentString;
+      document.getElementById("forceReward").style.display = "none";
+      document.getElementById("revealInfo").style.display = "none";
+      document.getElementById("checkbar").style.display = "none";
+      document.getElementById("waitpicture").style.display = "none";
+      document.getElementById("checkWinner").style.display = "block";
+      document.getElementById("forceRewardClaim").style.display = "none";
+      document.getElementById("lspicture").className="Picture";
+      document.getElementById("waitpicture").className="Picture";
+      document.getElementById("revealpicture").className="Picture";
+    });
+
+    // revealing transaction
     await rps.methods.revealHash(option, password).send({
       from: web3.currentProvider.selectedAddress
     });
@@ -833,8 +881,6 @@ class App extends React.Component {
   /**
    * INNER FUNCTIONS
    */
-
- 
 
   /**
    * Inner Function:
@@ -858,6 +904,10 @@ class App extends React.Component {
     }
   }
 
+  /**
+   * Function to swap the users gesture choice
+   * @param {String gesture} thisoption 
+   */
   rps = (thisoption) => {
     option = thisoption;
     document.getElementById("rock").className="ButtonUnselected";
