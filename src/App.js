@@ -815,6 +815,7 @@ class App extends React.Component {
       await rps.events.BothHashesReceived()
             .on("data", function(event){
               document.getElementById("revealing").style.display = "block";
+              document.getElementById("waiting").style.display = "none";
               document.getElementById("loading").style.display = "none";
               document.getElementById("revealstatusbar").style.display ="none";
               document.getElementById("revealerror").style.display = "none";
@@ -830,7 +831,6 @@ class App extends React.Component {
         value: web3.utils.toWei(this.state.betamount, "szabo")});
       
       document.getElementById("playing").style.display = "none";
-      document.getElementById("loading").style.display = "block";
       this.setState({ message: "Waiting for opponent´s move" });
         
 
@@ -860,21 +860,23 @@ class App extends React.Component {
       document.getElementById("forceReward").style.display = "none";
       document.getElementById("revealInfo").style.display = "none";
       document.getElementById("checkbar").style.display = "none";
+      document.getElementById("loading").style.display = "none";
       document.getElementById("waitpicture").style.display = "none";
       document.getElementById("checkWinner").style.display = "block";
       document.getElementById("forceRewardClaim").style.display = "none";
+      document.getElementById("revealstatusbar").style.display = "none";
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";
+
     });
 
     // revealing transaction
     await rps.methods.revealHash(option, password).send({
       from: web3.currentProvider.selectedAddress
     });
-
+    document.getElementById("checkWinner").style.display = "block";
     revealstatusbar.style.display = "none";
-    this.picturePulse(0);
     this.toggleCheckingScreen();
     }
 
