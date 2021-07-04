@@ -1,38 +1,506 @@
-.App {
+/**
+ * Custom Tags
+ * ordered by use
+ */
+input {
+  width: 97.5%;
+  background-color: #373F42;
+  padding: 12px 20px;
+  margin-top: 15px;
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  border-color: #AFA190;
+  box-sizing: border-box;
+  color: #B0A090;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+button + button {
+  margin-left: 10px;
+}
+
+/**
+ * React ClassNames
+ * ordered by use
+ */
+
+ .App {
   text-align: center;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  width: 565px;
+  margin: auto;
+  margin-top: 5%;
+  overflow: hidden;
+  color: #bbaa99;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (max-width: 600px) {
+  .Mobile {
+    zoom: 62%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Container {
+  background-color: #373F42;
+  width: 500px;
+  border-radius: 6px;
+  padding: 10px;
+  float: left;
 }
 
-.App-link {
-  color: #61dafb;
+.WalletStatusContainer {
+  width: 100%;
+  background-color: #B0A090;
+  border-radius: 6px;
+  color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.WalletStatusBar {
+  border-radius: 6px;
+  margin: 0 auto;
+  display: table;
+}
+
+.WalletStatusLeft {
+  position: absolute;
+}
+
+.MetamaskPicture {
+  width: 15px;
+  padding-top: 17px;
+}
+
+.WalletStatusRight {
+  float: left;
+  padding-left: 20px;
+  position: inline-block;
+}
+
+.StatusBarText {
+  text-align: left;
+}
+
+.WalletOverview {
+  background-color: #454F54;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.WalletHeading {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.Author{
+  font-size: 15px;
+}
+
+.RPS {
+  background-color: #454f54;
+  padding: 10px;
+  border-radius: 6px;
+  position: relative;
+  margin-top: 10px;
+}
+
+.FunctionBar {
+  background-color:#454F54;
+  padding: 10px;
+}
+
+.StartButton {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  width: 48%;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.StartButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.StartButton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.StartButton:hover span {
+  padding-right: 25px;
+}
+
+.StartButton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.BlankFunctionBar{
+  padding: 10px;
+}
+
+.Hide{
+  display: none;
+}
+
+.AddressBar {
+  padding-top: 1px;
+  background-color: #373F42;
+  border-radius: 6px;
+  height: 85px;
+  width: 97.5%;
+  margin-left: 5px;
+  margin-bottom: 0px;
+}
+
+.FinalScreen {
+  margin-top: 15px;
+}
+
+.FullSizeForwardButton {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  margin-top: 15px;
+  margin-left: 0px;
+  width: 97.5%;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.FullSizeForwardButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.FullSizeForwardButton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.FullSizeForwardButton:hover span {
+  padding-right: 25px;
+}
+
+.FullSizeForwardButton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.Bar {
+  display: none;
+  padding-top: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #373F42;
+  border-radius: 6px;
+  height: 70px;
+  width: 97.5%;
+  margin-left: 5px;
+  margin-bottom: 0px;
+  margin-top: 15px;
+}
+
+.BarLookUp {
+  display: none;
+  padding-top: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #373F42;
+  border-radius: 6px;
+  height: 70px;
+  width: 93%;
+  margin-left: 5px;
+  margin-bottom: 0px;
+  margin-top: 15px;
+}
+
+.Red {
+  color: red;
+}
+
+.Push{
+  margin-left: 5px;
+}
+
+.BetButton {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  width: 31%;
+  transition: all 0.5s;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.BetButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.BetButton span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 15px;
+  right: -10px;
+  transition: 0.5s;
+}
+
+.BetButton:hover span {
+  padding-right: 25px;
+}
+
+.BetButton:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.BackButton {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  margin-top: 15px;
+  margin-left: 0px;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.BackButton span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.BackButton span:after {
+  content: '\00ab';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: -20px;
+  transition: 0.5s;
+}
+
+.BackButton:hover span {
+  padding-left: 25px;
+}
+
+.BackButton:hover span:after {
+  opacity: 1;
+  left: 0;
+}
+
+.MediumButton{
+  width: 94%;
+}
+
+.FullSizeButton{
+  width: 97.3%;
+}
+
+.RPSStatusBar {
+  background-color: #373F42;
+  border-radius: 6px;
+  height: 170px;
+  width: 97.5%;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.Picture {
+  width: 50%;
+  margin-left: -115px;
+  padding-top: 50px;
+  position: absolute;
+}
+
+.PicturePulse{
+  animation: anim 2s infinite alternate;
+}
+
+.Message{
+  padding-top: 5px;
+  margin-top: 15px;
+}
+.LightFunctionBar{
+  padding: 10px;
+}
+
+.RPSFinished {
+  display: inline-block;
+  background-color: #373F42; 
+  border: 2px solid #B0A090;;
+  border-color: #B0A090;
+  border-radius: 6px;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  width: 40.2%;
+  height: 120px;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+  margin-top: 15px;
+}
+
+.Right{
+  margin-left: 10px;
+}
+
+.FinishedSpan {
+  display: inline-block;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  width: 41%;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+  margin-top: -40px;
+}
+
+.Footer{
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.AdminBar {
+  padding-top: 1px;
+  background-color: #373F42;
+  border-radius: 6px;
+  height: 50px;
+  width: 97.5%;
+  margin-left: 5px;
+  margin-bottom: 0px;
+}
+
+.OptionWindow {
+  background-color: #373f42;
+  padding: 10px;
+  width: 30px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  float: left;
+  margin-left: -10px;
+  height: 85px;
+}
+
+.OptionButton {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: black;
+  text-align: center;
+  padding: 9px;
+  width: 25px;
+  transition: all 0.5s;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.ButtonUnselected {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #373F42; 
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  width: 31%;
+  height: 150px;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+  margin-top: 15px;
+}
+
+.ButtonSelected {
+  display: inline-block;
+  border-radius: 6px;
+  background-color: #B0A090;
+  border: none;
+  color: #f8f8f8;
+  text-align: center;
+  padding: 15px;
+  transition: all 0.5s;
+  width: 31%;
+  height: 150px;
+  cursor: pointer;
+  font-family: 'Courier New', Courier, monospace;
+  color: black;
+}
+
+.RPSFinishImage {
+  width: 40%;
+}
+
+.RPSImage {
+  width: 70%;
+}
+
+/**
+ * Keyframe Values for Animation
+ */
+
+@keyframes anim {
+  0% {
+    opacity: .2;
+    z-index: .2;
   }
-  to {
-    transform: rotate(360deg);
+  
+  100% {
+    opacity: 1;
+    z-index: 1
   }
 }
