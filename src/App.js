@@ -393,9 +393,12 @@ class App extends React.Component {
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";    
-      
-      document.getElementById("playing").style.display = "block";
-      document.getElementById("waiting").style.display = "none";
+      var currentAddress = web3.currentProvider.selectedAddress;
+      if( currentAddress === event.returnValues.opponentAddress.toLowerCase() || 
+          currentAddress === event.returnValues.userAddress.toLowerCase()){
+        document.getElementById("playing").style.display = "block";
+        document.getElementById("waiting").style.display = "none";
+      }
     });
   }
 
