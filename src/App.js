@@ -225,12 +225,12 @@ class App extends React.Component {
                 </div>
                 <button id="forceReward" className="FullSizeForwardButton" onClick={() => this.forceReward()}><span>manually claim reward</span></button>
                 <div id="checkbar" className="RPSStatusBar">
-                  <img className="Picture" alt="Loadingscreen" src="./loadingscreen.png"></img>
+                  <img id="checkpicture" className="Picture" alt="Loadingscreen" src="./loadingscreen.png"></img>
                   <div className="Message">
                     <p>{message}</p>
                   </div>
                 </div>
-                <button id="checkWinner" className="FullSizeForwardButton Hide" onClick={() => this.playRPS()}><span>check winner</span></button>
+                <button id="checkWinner" className="FullSizeForwardButton Hide Push" onClick={() => this.playRPS()}><span>check winner</span></button>
                 <button id="forceRewardClaim" className="FullSizeForwardButton Hide" onClick={() => this.claimReward()}><span> claim your reward</span></button>
               </div>
               <div id="finishing" className="FunctionBar Hide">
@@ -241,9 +241,9 @@ class App extends React.Component {
                 </div>
                 <div id="resultScreen">
                   <span className="RPSFinished"><img id="myresult" className="RPSFinishImage" src="./rock.png" alt="Rock"></img></span>
-                  <span className="RPSFinished Right" ><img id="opresult" className="RPSFinishImage" src="./paper.png" alt="Paper"></img></span>
-                  <span className="FinishedSpan Footer">You</span>
-                  <span className="FinishedSpan Right Footer">Opponent</span>
+                  <span className="RPSFinished Right"><img id="opresult" className="RPSFinishImage" src="./paper.png" alt="Paper"></img></span>
+                  <span className="FinishedSpan Footer">Player 1</span>
+                  <span className="FinishedSpan Right Footer">Player 2</span>
                   <button id="tieOrWin" className="FullSizeForwardButton Hide" onClick={() => this.claimLastReward()}><span> claim your reward</span></button>
                   <button id="playAnotherOne" className="FullSizeForwardButton Hide" onClick={() => this.refreshPage()}><span> play again</span></button>
                 </div>
@@ -406,7 +406,7 @@ class App extends React.Component {
    * Option Window Function:
    * Switch to the Revealing Screen
    */
-  toggleCheckingScreen = async () => {
+  toggleCheckingScreen = () => {
     this.picturePulse(1);
     document.getElementById("checking").style.display = "block";
     document.getElementById("revealing").style.display = "none";
@@ -515,8 +515,11 @@ class App extends React.Component {
     
     await rps.events.WinnerSet()
     .on("data", function(event){
+      document.getElementById("playing").style.display = "none";
+      document.getElementById("revealing").style.display = "none";
       var winner = event.returnValues.winner;
-      if(winner === web3.currentProvider.selectedAddress){
+      console.log("winner: "+winner);
+      if(winner.toLowerCase() === web3.currentProvider.selectedAddress.toLowerCase()){
         gameresult = "You´ve won!"
       }
       else if(winner === "0x0000000000000000000000000000000000000000"){
@@ -524,6 +527,7 @@ class App extends React.Component {
       }
       else{
         gameresult = "You´ve lost !"
+        document.getElementById("tieOrWin").style.display = "none";
       }
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
@@ -668,6 +672,7 @@ class App extends React.Component {
    * Player joins active game
    */
   joinAddress = async () => {
+    this.picturePulse(1);
     this.setState({ message: "Currently connecting to the game..." });
     document.getElementById("joining").style.display = "none";
     document.getElementById("loading").style.display = "block";
@@ -835,8 +840,7 @@ class App extends React.Component {
       
       document.getElementById("playing").style.display = "none";
       this.setState({ message: "Waiting for opponent´s move" });
-        
-
+      this.picturePulse(1);
   }
 
   /**
@@ -862,12 +866,17 @@ class App extends React.Component {
       opponentGuesture = event.returnValues.opponentString;
       document.getElementById("forceReward").style.display = "none";
       document.getElementById("revealInfo").style.display = "none";
-      document.getElementById("checkbar").style.display = "none";
       document.getElementById("loading").style.display = "none";
       document.getElementById("waitpicture").style.display = "none";
+      document.getElementById("checking").style.display = "block";
       document.getElementById("checkWinner").style.display = "block";
+      document.getElementById("checkbar").style.display = "none";
       document.getElementById("forceRewardClaim").style.display = "none";
       document.getElementById("revealstatusbar").style.display = "none";
+
+      document.getElementById("playing").style.display = "none";
+      document.getElementById("revealing").style.display = "none";
+
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";
@@ -901,11 +910,13 @@ class App extends React.Component {
       document.getElementById("lspicture").className="Picture PicturePulse";
       document.getElementById("waitpicture").className="Picture PicturePulse";
       document.getElementById("revealpicture").className="Picture PicturePulse";
+      document.getElementById("checkpicture").className="Picture PicturePulse";
     }
     else{
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";
+      document.getElementById("checkpicture").className="Picture";
     }
   }
 
