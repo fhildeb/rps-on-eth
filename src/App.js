@@ -534,7 +534,7 @@ class App extends React.Component {
       document.getElementById("revealpicture").className="Picture";
       document.getElementById("checking").style.display = "none";
       document.getElementById("finishing").style.display = "block";
-      document.getElementById("playAnotherOne").style.display = "none";
+      document.getElementById("playAnotherOne").style.display = "block";
       document.getElementById("resultText").style.display = "none";
       document.getElementById("resultScreen").style.display = "none";
       document.getElementById("myresult").src = "./"+userGesture+".png";
@@ -824,6 +824,7 @@ class App extends React.Component {
             .on("data", function(event){
               document.getElementById("revealing").style.display = "block";
               document.getElementById("waiting").style.display = "none";
+              document.getElementById("playing").style.display = "none";
               document.getElementById("loading").style.display = "none";
               document.getElementById("revealstatusbar").style.display ="none";
               document.getElementById("revealerror").style.display = "none";
@@ -875,11 +876,11 @@ class App extends React.Component {
       document.getElementById("revealstatusbar").style.display = "none";
 
       document.getElementById("playing").style.display = "none";
-      document.getElementById("revealing").style.display = "none";
 
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";
+      document.getElementById("revealing").style.display = "none";
 
     });
 
