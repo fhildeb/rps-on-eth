@@ -521,22 +521,20 @@ class App extends React.Component {
       console.log("winner: "+winner);
       if(winner.toLowerCase() === web3.currentProvider.selectedAddress.toLowerCase()){
         gameresult = "You´ve won!"
-        document.getElementById("playAnotherOne").style.display = "none";
       }
       else if(winner === "0x0000000000000000000000000000000000000000"){
         gameresult = "There was a tie!"
-        document.getElementById("playAnotherOne").style.display = "none";
       }
       else{
         gameresult = "You´ve lost !"
         document.getElementById("tieOrWin").style.display = "none";
-        document.getElementById("playAnotherOne").style.display = "block";
       }
       document.getElementById("lspicture").className="Picture";
       document.getElementById("waitpicture").className="Picture";
       document.getElementById("revealpicture").className="Picture";
       document.getElementById("checking").style.display = "none";
       document.getElementById("finishing").style.display = "block";
+      document.getElementById("playAnotherOne").style.display = "block";
       document.getElementById("resultText").style.display = "none";
       document.getElementById("resultScreen").style.display = "none";
       document.getElementById("myresult").src = "./"+userGesture+".png";
@@ -582,8 +580,6 @@ class App extends React.Component {
    * Claim reward if opponent does not answer
    */
   claimLastReward = async () => {
-    document.getElementById("tieOrWin").style.display = "none";
-    document.getElementById("playAnotherOne").style.display = "block";
     const { web3 } = this.state;
     const rps = new web3.eth.Contract(RPSABI, rpsAddress);
 
