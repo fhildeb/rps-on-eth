@@ -410,7 +410,7 @@ class App extends React.Component {
     this.picturePulse(1);
     document.getElementById("checking").style.display = "block";
     document.getElementById("revealing").style.display = "none";
-    document.getElementById("checkWinner").style.display = "none";
+    document.getElementById("checkWinner").style.display = "block";
     document.getElementById("forceRewardClaim").style.display = "none";
 
     this.setState({ message: "Waiting for opponent´s reveal" });
@@ -887,7 +887,6 @@ class App extends React.Component {
     await rps.methods.revealHash(option, password).send({
       from: web3.currentProvider.selectedAddress
     });
-    document.getElementById("checkWinner").style.display = "block";
     revealstatusbar.style.display = "none";
     this.toggleCheckingScreen();
     }
