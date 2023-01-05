@@ -28,9 +28,11 @@ This application is deployed [here](https://rpsoneth.netlify.app/) using Netlify
 ![Screenshot 1](./img/screenshot_1.png)
 ![Screenshot 1](./img/screenshot_2.png)
 
-## Tech Flows
+## Contract Architecture
 
 ![Factory Pattern](./img/architecture.png)
+
+## Program Schedule
 
 ![Program Flow](./img/program-flow.png)
 
