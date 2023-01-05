@@ -1,18 +1,32 @@
 # rps-on-eth
 
-The resulting application maps the strategy game of rock, paper, scissors onto a blockchain. In this two people agree to compete against each other. Each of them has three options to choose a gesture: rock,  paper, scissors. If both choose the same one, there is a there is a draw. If not, a cycle results in which rock beats scissors, scissors beats paper, and paper beats rock, and the winner takes the bet.
+The famous rock, paper, scissor game running on a blockchain with bets. Two people agree to compete against each other, while copy pasting their addresses. Each of them can then choose a gesture: rock, paper, scissors and have to set a salt, so none of the player can see what the opponend picked before the results are revealed. If both choose the same option, there is a draw and both get back their bet value. If not, the games picks a winner, who gets the full bet: rock beats scissors, scissors beats paper, and paper beats rock.
 
-> Game logic takes place in the smart contract based on the factory pattern.
+> **_NOTE:_** Commentary appears in German.
 
-> **_NOTE:_** The commentary and filenames might appear in German.
+## Features
+
+- Rock, Paper, Scissors Game on the Blockchain
+- Players can bet with a value in ETH
+- Operator of the Application gets a 1& cut of bets
+- Abort mechanism, if second player leaves the game
+
+## Smart Contract
+
+- All game logics take place in the smart contract
+- Player Queuing done in global registry
+- Separate games are utilizing the Factory Pattern
+- Bet and locking within the clone contract
+- Moves are hidden until reveal using hash with salt
 
 ## Links
 
-[Live Application](https://rpsoneth.netlify.app/)
+This application is deployed [here](https://rpsoneth.netlify.app/) using Netlify.
 
 ## Showcase
 
-![Screenshot 1](./img/screenshot.png)
+![Screenshot 1](./img/screenshot_1.png)
+![Screenshot 1](./img/screenshot_2.png)
 
 ## Tech Flows
 
@@ -22,11 +36,6 @@ The resulting application maps the strategy game of rock, paper, scissors onto a
 
 ## Run locally
 
-### Init:
-`cd educhain_prototype && npm i`
-
-### Development: 
-`npm start`
-
-### Production:
-`npm run build`
+- Initialization: `npm i`
+- Development: `npm start`
+- Production: `npm run build`
