@@ -2,8 +2,6 @@
 
 The famous rock, paper, scissor game running on a blockchain with bets. Two people agree to compete against each other, while copy pasting their addresses. Each of them can then choose a gesture: rock, paper, scissors and have to set a salt, so none of the player can see what the opponend picked before the results are revealed. If both choose the same option, there is a draw and both get back their bet value. If not, the games picks a winner, who gets the full bet: rock beats scissors, scissors beats paper, and paper beats rock.
 
-> **_NOTE:_** Commentary appears in German.
-
 ## Features
 
 - Rock, Paper, Scissors Game on the Blockchain
